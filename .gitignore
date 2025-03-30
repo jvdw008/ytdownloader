@@ -6,3 +6,4 @@ lib/
 backup/
 ff*.exe
 YTDownloader-installer.exe
+installer.nsi
