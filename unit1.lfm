@@ -1,0 +1,143 @@
+object Form1: TForm1
+  Left = 1758
+  Height = 236
+  Top = 658
+  Width = 745
+  Caption = 'YT Downloader'
+  ClientHeight = 236
+  ClientWidth = 745
+  OnCreate = FormCreate
+  Position = poDesktopCenter
+  LCLVersion = '3.6.0.0'
+  object txtURL: TStaticText
+    Left = 16
+    Height = 17
+    Top = 8
+    Width = 81
+    Caption = 'Youtube URL'
+    TabOrder = 0
+  end
+  object ytURL: TEdit
+    Left = 16
+    Height = 23
+    Hint = 'Enter the full YT URL in here'
+    Top = 32
+    Width = 440
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 1
+  end
+  object audioOnlyChkBox: TCheckBox
+    Left = 472
+    Height = 19
+    Hint = 'Download the audio of the video track only'
+    Top = 8
+    Width = 259
+    Caption = 'Do you want the audio only? (Choose format)'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+    OnChange = audioOnlyChkBoxChange
+  end
+  object downloadBtn: TButton
+    Left = 472
+    Height = 25
+    Hint = 'Click this to download your YT video or audio'
+    Top = 144
+    Width = 75
+    Caption = 'Download!'
+    Enabled = False
+    Font.CharSet = ANSI_CHARSET
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 3
+    OnClick = downloadBtnClick
+  end
+  object savePath: TEdit
+    Left = 16
+    Height = 23
+    Hint = 'Click here to select your download directory'
+    Top = 88
+    Width = 440
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    OnClick = savePathChange
+  end
+  object savePathLbl: TLabel
+    Left = 16
+    Height = 15
+    Top = 64
+    Width = 51
+    Caption = 'Save Path'
+  end
+  object audioFormat: TListBox
+    Left = 472
+    Height = 80
+    Top = 32
+    Width = 100
+    Enabled = False
+    Items.Strings = (
+      'aac'
+      'alac'
+      'flac'
+      'm4a'
+      'mp3'
+      'opus'
+      'vorbis'
+      'wav'
+    )
+    ItemHeight = 15
+    TabOrder = 5
+  end
+  object ProgressBar1: TProgressBar
+    Left = 16
+    Height = 24
+    Top = 144
+    Width = 441
+    TabOrder = 6
+  end
+  object fullCommand: TEdit
+    Left = 16
+    Height = 23
+    Hint = 'This shows the full command that runs to get your video or audio'
+    Top = 200
+    Width = 712
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 7
+  end
+  object Label1: TLabel
+    Left = 16
+    Height = 15
+    Top = 120
+    Width = 102
+    Caption = 'Download Progress'
+  end
+  object Label2: TLabel
+    Left = 16
+    Height = 15
+    Top = 176
+    Width = 77
+    Caption = 'Command log'
+  end
+  object resetBtn: TButton
+    Left = 653
+    Height = 25
+    Hint = 'This clears out the values of the YT URL and Command Log and clears the Audio-only checkbox'
+    Top = 144
+    Width = 75
+    Caption = 'Clear'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 8
+    OnClick = resetBtnClick
+  end
+  object SelectDirectoryDialog1: TSelectDirectoryDialog
+    Left = 120
+  end
+end
