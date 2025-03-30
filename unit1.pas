@@ -70,7 +70,6 @@ constructor TDownloadThread.Create(const Command: String);
 begin
   FreeOnTerminate := True; // Automatically free memory when done
   FCommand := Command;
-  //MessageDlg(Command, mtInformation, [mbOK], 0);
   inherited Create(False); // Start the thread immediately
 end;
 
@@ -86,6 +85,8 @@ begin
   Form1.ProgressBar1.Position := 100;
   // Enable this button last
   Form1.downloadBtn.Enabled := true;
+  // Tell user we're done
+  MessageDlg('Download for link ' + Form1.ytURL.Text + ' complete!', mtInformation, [mbOK], 0);
   // Open the folder after the process is complete
   ShellExecute(0, 'open', PChar(Form1.savePath.Text), nil, nil, SW_SHOWNORMAL);
 end;
