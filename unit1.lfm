@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 1723
-  Height = 236
-  Top = 671
-  Width = 745
+  Left = 2020
+  Height = 464
+  Top = 450
+  Width = 475
   Caption = 'YT Downloader'
-  ClientHeight = 236
-  ClientWidth = 745
+  ClientHeight = 464
+  ClientWidth = 475
   OnCreate = FormCreate
   Position = poDesktopCenter
   LCLVersion = '3.6.0.0'
@@ -28,10 +28,10 @@ object Form1: TForm1
     TabOrder = 1
   end
   object audioOnlyChkBox: TCheckBox
-    Left = 472
+    Left = 197
     Height = 19
     Hint = 'Download the audio of the video track only'
-    Top = 8
+    Top = 117
     Width = 259
     Caption = 'Do you want the audio only? (Choose format)'
     ParentShowHint = False
@@ -40,12 +40,12 @@ object Form1: TForm1
     OnChange = audioOnlyChkBoxChange
   end
   object downloadBtn: TButton
-    Left = 472
+    Left = 197
     Height = 25
     Hint = 'Click this to download your YT video or audio'
-    Top = 144
+    Top = 248
     Width = 75
-    Caption = 'Download!'
+    Caption = 'Start'
     Enabled = False
     Font.CharSet = ANSI_CHARSET
     Font.Pitch = fpVariable
@@ -72,13 +72,13 @@ object Form1: TForm1
     Left = 16
     Height = 15
     Top = 64
-    Width = 51
-    Caption = 'Save Path'
+    Width = 124
+    Caption = 'Where to Download to?'
   end
   object audioFormat: TListBox
-    Left = 472
+    Left = 197
     Height = 80
-    Top = 32
+    Top = 144
     Width = 100
     Enabled = False
     Items.Strings = (
@@ -95,49 +95,89 @@ object Form1: TForm1
     TabOrder = 5
   end
   object ProgressBar1: TProgressBar
-    Left = 16
+    Left = 15
     Height = 24
-    Top = 144
+    Top = 304
     Width = 441
     TabOrder = 6
   end
   object fullCommand: TEdit
     Left = 16
-    Height = 23
+    Height = 21
     Hint = 'This shows the full command that runs to get your video or audio'
-    Top = 200
-    Width = 712
+    Top = 360
+    Width = 440
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -13
+    Font.Name = 'Courier'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    ParentFont = False
     ParentShowHint = False
     ShowHint = True
     TabOrder = 7
+    Visible = False
   end
   object Label1: TLabel
-    Left = 16
+    Left = 184
     Height = 15
-    Top = 120
+    Top = 280
     Width = 102
     Caption = 'Download Progress'
   end
-  object Label2: TLabel
-    Left = 16
-    Height = 15
-    Top = 176
-    Width = 77
-    Caption = 'Command log'
-  end
   object resetBtn: TButton
-    Left = 653
+    Left = 15
     Height = 25
     Hint = 'This clears out the values of the YT URL and Command Log and clears the Audio-only checkbox'
-    Top = 144
+    Top = 400
     Width = 75
-    Caption = 'Clear'
+    Caption = 'Clear fields'
     ParentShowHint = False
     ShowHint = True
     TabOrder = 8
     OnClick = resetBtnClick
   end
+  object checkboxShowLog: TCheckBox
+    Left = 184
+    Height = 19
+    Top = 336
+    Width = 109
+    Caption = 'Show Parameters'
+    TabOrder = 9
+    OnChange = checkboxShowLogChange
+  end
+  object videoFormatLabel: TLabel
+    Left = 16
+    Height = 15
+    Top = 120
+    Width = 92
+    Caption = 'Movie Resolution'
+  end
+  object videoFormat: TListBox
+    Left = 16
+    Height = 80
+    Top = 144
+    Width = 100
+    Items.Strings = (
+      '1920'
+      '1080'
+      '720'
+      '480'
+    )
+    ItemHeight = 15
+    TabOrder = 10
+  end
+  object quitBtn: TButton
+    Left = 381
+    Height = 25
+    Top = 400
+    Width = 75
+    Caption = 'Quit'
+    TabOrder = 11
+    OnClick = quitBtnClick
+  end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
-    Left = 120
+    Left = 320
+    Top = 168
   end
 end

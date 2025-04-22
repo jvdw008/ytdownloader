@@ -24,12 +24,15 @@ type
 
   TForm1 = class(TForm)
     audioOnlyChkBox: TCheckBox;
+    quitBtn: TButton;
+    checkboxShowLog: TCheckBox;
+    videoFormatLabel: TLabel;
+    videoFormat: TListBox;
     resetBtn: TButton;
     downloadBtn: TButton;
     audioFormat: TListBox;
     fullCommand: TEdit;
     Label1: TLabel;
-    Label2: TLabel;
     ProgressBar1: TProgressBar;
     savePath: TEdit;
     savePathLbl: TLabel;
@@ -37,6 +40,8 @@ type
     ytURL: TEdit;
     txtURL: TStaticText;
     procedure audioOnlyChkBoxChange(Sender: TObject);
+    procedure quitBtnClick(Sender: TObject);
+    procedure checkboxShowLogChange(Sender: TObject);
     procedure downloadBtnClick(Sender: TObject);
     procedure resetBtnClick(Sender: TObject);
     procedure savePathChange(Sender: TObject);
@@ -48,7 +53,7 @@ type
   end;
 
 const
-  AppVersion = '0.0.1'; // Version
+  AppVersion = '0.0.2'; // Version
 
 var
   Form1: TForm1;
@@ -106,6 +111,8 @@ begin
   CommandParts := TStringList.Create;
   try
     // Split FCommand into separate parameters
+    CommandParts.Delimiter := ' ';
+    CommandParts.QuoteChar := '"';
     CommandParts.DelimitedText := FCommand;
 
     AProcess.Executable := commandLineExe;
@@ -161,23 +168,39 @@ begin
     // Construct command options correctly
     CommandOptions := TStringList.Create;
     try
+      // YT URL
       CommandOptions.Add(ytURL.Text);
-      CommandOptions.Add('-S');
-      CommandOptions.Add('ext');
+
+      // Audio file extension
+      CommandOptions.Add('-S ');
+      CommandOptions.Add('ext ');
 
       if audioOnlyChkBox.Checked then
       begin
-        CommandOptions.Add('-x');
+        CommandOptions.Add('-x ');
         CommandOptions.Add('--audio-format');
         if audioFormat.ItemIndex >= 0 then
           CommandOptions.Add(audioFormat.Items[audioFormat.ItemIndex])
         else
-          CommandOptions.Add('mp3');
+          CommandOptions.Add('mp3 ');
       end;
 
+      // Set the video resolution
+      if videoFormat.Enabled then
+      begin
+        CommandOptions.Add('-S ');
+        if videoFormat.ItemIndex >= 0 then
+          CommandOptions.Add('res:' + videoFormat.Items[videoFormat.ItemIndex] + ' ')
+        else
+          CommandOptions.Add('res:720 ');
+      end;
+
+      // Where FFMPEG is located
       CommandOptions.Add('--ffmpeg-location ');
       CommandOptions.Add(ffmpegPath);
-      CommandOptions.Add('-P');
+
+      // Where to save your file
+      CommandOptions.Add('-P ');
       CommandOptions.Add(savePath.Text);
 
       // Start the download in a separate thread
@@ -200,9 +223,29 @@ end;
 procedure TForm1.audioOnlyChkBoxChange(Sender: TObject);
 begin
   if audioOnlyChkBox.Checked then
-    audioFormat.Enabled := true
+  begin
+    audioFormat.Enabled := true;
+    videoFormat.Enabled := false
+  end
   else
+  begin
     audioFormat.Enabled := false;
+    videoFormat.Enabled := true;
+  end;
+end;
+
+procedure TForm1.quitBtnClick(Sender: TObject);
+begin
+   Application.Terminate;
+end;
+
+
+procedure TForm1.checkboxShowLogChange(Sender: TObject);
+begin
+  if checkboxShowLog.Checked then
+    fullCommand.Visible := true
+  else
+    fullCommand.Visible := false;
 end;
 
 procedure TForm1.savePathChange(Sender: TObject);
