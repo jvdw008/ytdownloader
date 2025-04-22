@@ -10,6 +10,7 @@ Please also keep in mind you will need the FFMpeg exe files in the project folde
 
 Thanks for checking out my simple GUI app to download Youtube videos. This lets you choose a video and download it in the best to worst format depending on what's available: 
 If you choose Audio-only, you can choose from a range of audio formats to download into, eg. mp3, wav, ogg, etc.
+You can now also choose a video resolution from 480p up to 2160p!
 
 More features will come over time, but for now these are the features I was after, so hopefully others find this useful too.
 
