@@ -18,7 +18,7 @@ Video options:
 - Choose if you want audio only or not
 - Download for offline viewing/listening
 - Choose your Video Reolution for download, or
-- Stream directly into your external video player! (like VLC)
+- Stream directly into your external video player! (like VLC) **If your video player fails to play the video, try one video resolution down from your selected one**
 
 More features will come over time, but for now these are the features I was after, so hopefully others find this useful too.
 
