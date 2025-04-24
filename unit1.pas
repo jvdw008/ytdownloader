@@ -24,6 +24,11 @@ type
 
   TForm1 = class(TForm)
     audioOnlyChkBox: TCheckBox;
+    orLbl: TLabel;
+    streamBtn: TButton;
+    openExtPlayerDialog1: TOpenDialog;
+    playerPath: TEdit;
+    playerPathLbl: TLabel;
     quitBtn: TButton;
     checkboxShowLog: TCheckBox;
     videoFormatLabel: TLabel;
@@ -40,12 +45,14 @@ type
     ytURL: TEdit;
     txtURL: TStaticText;
     procedure audioOnlyChkBoxChange(Sender: TObject);
+    procedure playerPathChange(Sender: TObject);
     procedure quitBtnClick(Sender: TObject);
     procedure checkboxShowLogChange(Sender: TObject);
     procedure downloadBtnClick(Sender: TObject);
     procedure resetBtnClick(Sender: TObject);
     procedure savePathChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure streamBtnClick(Sender: TObject);
   private
 
   public
@@ -53,7 +60,7 @@ type
   end;
 
 const
-  AppVersion = '0.0.2'; // Version
+  AppVersion = '0.0.3'; // Version
 
 var
   Form1: TForm1;
@@ -211,6 +218,57 @@ begin
   end;
 end;
 
+// This streams the video
+(*
+Video codes:
+480: 135
+720: 136
+1080: 299
+1440: 308
+2160: 315
+
+Audio codes:
+mp4: 233
+m4a: 140
+*)
+procedure TForm1.streamBtnClick(Sender: TObject);
+var
+  tmpCommandList: String;
+  videoCode: String;
+  AProcess: TProcess;
+begin
+
+  if ytURL.Text <> '' then
+  begin
+    AProcess := TProcess.Create(nil);
+    try
+      // Firstly, get the right code based on the video resolution
+      case videoFormat.Items[videoFormat.ItemIndex] of
+        '2160': videoCode := '315';
+        '1440': videoCode := '308';
+        '1080': videoCode := '299';
+        '720' : videoCode := '136';
+        '480' : videoCode := '135';
+      else
+        videoCode := '135'; // Default to 480p
+      end;
+
+      AProcess.Options := [poNoConsole];
+      tmpCommandList := 'cmd.exe /C "' + commandLineExe + ' -f ' + videoCode + '+140' + // Hard-code audio to be .m4a
+                  ' --ffmpeg-location ' + ffmpegPath + ' -o - ' +
+                  ytURL.Text + ' | "' + playerPath.Text + '" -"';
+      AProcess.CommandLine := tmpCommandList;
+
+      if checkboxShowLog.Enabled then
+         fullCommand.Text := tmpCommandList;
+      AProcess.Execute;
+
+    finally
+      AProcess.Free;
+    end;
+  end;
+end;
+
 procedure TForm1.resetBtnClick(Sender: TObject);
 begin
   // Default values
@@ -218,6 +276,8 @@ begin
   fullCommand.Text := '';
   audioOnlyChkBox.Checked := false;
   progressBar1.Position := 0;
+  playerPath.Text := '';
+  savePath.Text := '';
 end;
 
 procedure TForm1.audioOnlyChkBoxChange(Sender: TObject);
@@ -232,6 +292,17 @@ begin
     audioFormat.Enabled := false;
     videoFormat.Enabled := true;
   end;
+end;
+
+procedure TForm1.playerPathChange(Sender: TObject);
+begin
+  if openExtPlayerDialog1.Execute then
+    // Set External player exe
+    playerPath.Text := openExtPlayerDialog1.FileName;
+
+    // Enable stream button if not empty
+    if playerPath.Text <> '' then
+       streamBtn.Enabled := true;
 end;
 
 procedure TForm1.quitBtnClick(Sender: TObject);
@@ -250,11 +321,6 @@ end;
 
 procedure TForm1.savePathChange(Sender: TObject);
 begin
-  // Set exe path
-  commandPath := ExtractFilePath(ParamStr(0));
-  commandLineExe := commandPath + 'yt-dlp.exe';
-  ffmpegPath := commandPath;
-
   if SelectDirectoryDialog1.Execute then
     // Set save path
     savePath.Text := SelectDirectoryDialog1.FileName + PathDelim;
@@ -273,6 +339,11 @@ begin
   Self.Constraints.MaxHeight := Self.Height;
 
   Self.Caption := 'YT Downloader - v' + AppVersion;
+
+  // Set exe path
+  commandPath := ExtractFilePath(ParamStr(0));
+  commandLineExe := commandPath + 'yt-dlp.exe';
+  ffmpegPath := commandPath;
 end;
 
 

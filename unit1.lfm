@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 2020
-  Height = 464
-  Top = 450
-  Width = 475
+  Left = 1878
+  Height = 441
+  Top = 242
+  Width = 472
   Caption = 'YT Downloader'
-  ClientHeight = 464
-  ClientWidth = 475
+  ClientHeight = 441
+  ClientWidth = 472
   OnCreate = FormCreate
   Position = poDesktopCenter
   LCLVersion = '3.6.0.0'
@@ -31,7 +31,7 @@ object Form1: TForm1
     Left = 197
     Height = 19
     Hint = 'Download the audio of the video track only'
-    Top = 117
+    Top = 62
     Width = 259
     Caption = 'Do you want the audio only? (Choose format)'
     ParentShowHint = False
@@ -40,12 +40,12 @@ object Form1: TForm1
     OnChange = audioOnlyChkBoxChange
   end
   object downloadBtn: TButton
-    Left = 197
+    Left = 56
     Height = 25
     Hint = 'Click this to download your YT video or audio'
-    Top = 248
+    Top = 232
     Width = 75
-    Caption = 'Start'
+    Caption = 'Download'
     Enabled = False
     Font.CharSet = ANSI_CHARSET
     Font.Pitch = fpVariable
@@ -61,8 +61,8 @@ object Form1: TForm1
     Left = 16
     Height = 23
     Hint = 'Click here to select your download directory'
-    Top = 88
-    Width = 440
+    Top = 200
+    Width = 153
     ParentShowHint = False
     ShowHint = True
     TabOrder = 4
@@ -71,14 +71,14 @@ object Form1: TForm1
   object savePathLbl: TLabel
     Left = 16
     Height = 15
-    Top = 64
-    Width = 124
-    Caption = 'Where to Download to?'
+    Top = 176
+    Width = 81
+    Caption = 'Download Path'
   end
   object audioFormat: TListBox
     Left = 197
     Height = 80
-    Top = 144
+    Top = 88
     Width = 100
     Enabled = False
     Items.Strings = (
@@ -97,7 +97,7 @@ object Form1: TForm1
   object ProgressBar1: TProgressBar
     Left = 15
     Height = 24
-    Top = 304
+    Top = 288
     Width = 441
     TabOrder = 6
   end
@@ -119,11 +119,11 @@ object Form1: TForm1
     Visible = False
   end
   object Label1: TLabel
-    Left = 184
+    Left = 16
     Height = 15
-    Top = 280
-    Width = 102
-    Caption = 'Download Progress'
+    Top = 264
+    Width = 45
+    Caption = 'Progress'
   end
   object resetBtn: TButton
     Left = 15
@@ -149,14 +149,14 @@ object Form1: TForm1
   object videoFormatLabel: TLabel
     Left = 16
     Height = 15
-    Top = 120
+    Top = 64
     Width = 92
     Caption = 'Movie Resolution'
   end
   object videoFormat: TListBox
-    Left = 16
+    Left = 15
     Height = 80
-    Top = 144
+    Top = 88
     Width = 100
     Items.Strings = (
       '2160'
@@ -177,8 +177,51 @@ object Form1: TForm1
     TabOrder = 11
     OnClick = quitBtnClick
   end
+  object playerPathLbl: TLabel
+    Left = 304
+    Height = 15
+    Top = 176
+    Width = 104
+    Caption = 'External Player Path'
+  end
+  object playerPath: TEdit
+    Left = 303
+    Height = 23
+    Hint = 'Click here to set your External Player .exe (eg. VLC)'
+    Top = 200
+    Width = 153
+    TabOrder = 12
+    OnClick = playerPathChange
+  end
+  object streamBtn: TButton
+    Left = 336
+    Height = 25
+    Top = 232
+    Width = 91
+    Caption = 'Stream Video'
+    Enabled = False
+    Font.CharSet = ANSI_CHARSET
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 13
+    OnClick = streamBtnClick
+  end
+  object orLbl: TLabel
+    Left = 224
+    Height = 15
+    Top = 203
+    Width = 16
+    Caption = 'OR'
+  end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
-    Left = 320
-    Top = 168
+    Left = 288
+    Top = 296
+  end
+  object openExtPlayerDialog1: TOpenDialog
+    Filter = 'Executable|*.exe'
+    Left = 360
+    Top = 296
   end
 end
