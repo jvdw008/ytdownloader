@@ -7,19 +7,20 @@ Grab the installer exe file from the [Releases](https://github.com/jvdw008/ytdow
 Thanks for checking out my simple GUI app to download Youtube videos. This lets you choose a video and download it in the best to worst format depending on what's available: 
 
 Audio-only options:
-- choose from a range of audio formats to download into, eg. mp3, wav, ogg, etc.
+- Choose from a range of audio formats to download into, eg. mp3, wav, ogg, etc.
 
 Video options:
-- Video resolution downloads from 480p up to 2160p!
+- Download videos from 480p up to 2160p, or
 - Stream directly into your external video player! (like VLC)
 
 ## Current features
 - Paste a YT link
+- Choose your Video Reolution for download
 - Choose if you want audio only or not
-- Download for offline viewing/listening
-- Choose your Video Reolution for download, or
+- Download videos for offline viewing/listening, or
 - Stream directly into your external video player! (like VLC) 
   *(If your video player fails to play the video, try one video resolution down from your selected one)*
+- Loads and saves your Download path and External player path.
 
 More features will come over time, but for now these are the features I was after, so hopefully others find this useful too.
 

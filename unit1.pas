@@ -5,7 +5,7 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, ComCtrls, Process, Windows, ShellAPI;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, ComCtrls, Process, Windows, ShellAPI, IniFiles;
 
 type
 
@@ -53,6 +53,10 @@ type
     procedure savePathChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure streamBtnClick(Sender: TObject);
+    procedure SavePlayerPath(PlayerExe: string);
+    procedure SaveDownloadPath(DownloadDir: string);
+    procedure ytURLChange(Sender: TObject);
+
   private
 
   public
@@ -60,7 +64,7 @@ type
   end;
 
 const
-  AppVersion = '0.0.3'; // Version
+  AppVersion = '0.0.4'; // Version
 
 var
   Form1: TForm1;
@@ -163,7 +167,7 @@ var
   CommandOptions: TStringList;
 begin
 
-  if ytURL.Text <> '' then
+  if (ytURL.Text <> '') and (savePath.Text <> '') then
   begin
 
     // Disable this button first
@@ -249,8 +253,6 @@ begin
         '1080': videoCode := '299';
         '720' : videoCode := '136';
         '480' : videoCode := '135';
-      else
-        videoCode := '135'; // Default to 480p
       end;
 
       AProcess.Options := [poNoConsole];
@@ -303,6 +305,7 @@ begin
     // Enable stream button if not empty
     if playerPath.Text <> '' then
        streamBtn.Enabled := true;
+       SavePlayerPath(playerPath.Text);
 end;
 
 procedure TForm1.quitBtnClick(Sender: TObject);
@@ -328,7 +331,58 @@ begin
     // Enable download button if not empty
     if savePath.Text <> '' then
        downloadBtn.Enabled := true;
+       SaveDownloadPath(savePath.Text);
 end;
+
+procedure TForm1.SaveDownloadPath(DownloadDir: string);
+begin
+  with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
+  try
+    WriteString('Settings', 'DownloadDir', DownloadDir);
+  finally
+    Free;
+  end;
+end;
+
+procedure TForm1.ytURLChange(Sender: TObject);
+begin
+  if ytURL.Text <> '' then
+  begin
+     if savePath.Text <> '' then downloadBtn.Enabled := true;
+     if playerPath.Text <> '' then streamBtn.Enabled := true;
+  end;
+end;
+
+procedure TForm1.SavePlayerPath(PlayerExe: string);
+begin
+  with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
+  try
+    WriteString('Settings', 'PlayerExe', PlayerExe);
+  finally
+    Free;
+  end;
+end;
+
+function LoadDownloadPath: string;
+begin
+  with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
+  try
+    Result := ReadString('Settings', 'DownloadDir', '');
+  finally
+    Free;
+  end;
+end;
+
+function LoadPlayerPath: string;
+begin
+  with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
+  try
+    Result := ReadString('Settings', 'PlayerExe', '');
+  finally
+    Free;
+  end;
+end;
+
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
@@ -344,6 +398,11 @@ begin
   commandPath := ExtractFilePath(ParamStr(0));
   commandLineExe := commandPath + 'yt-dlp.exe';
   ffmpegPath := commandPath;
+
+  // Check if config file exists, then load settings
+  savePath.Text := LoadDownloadPath;
+  playerPath.Text := LoadPlayerPath;
+
 end;
 
 

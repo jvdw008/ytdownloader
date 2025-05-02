@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 1878
+  Left = 2002
   Height = 441
-  Top = 242
+  Top = 262
   Width = 472
   Caption = 'YT Downloader'
   ClientHeight = 441
@@ -26,6 +26,7 @@ object Form1: TForm1
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
+    OnChange = ytURLChange
   end
   object audioOnlyChkBox: TCheckBox
     Left = 197
@@ -166,6 +167,7 @@ object Form1: TForm1
       '480'
     )
     ItemHeight = 15
+    ItemIndex = 4
     TabOrder = 10
   end
   object quitBtn: TButton
